@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIPcom</title>
+    <style>
+        body {
+            body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4ff;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Ocupa a altura total da tela */
+}
+
+        }
+        .container {
+            background-color: rgba(61, 94, 204, 0.534);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgb(21, 32, 134);
+            padding: 50px;
+            width: 400px;
+            text-align: center;
+            margin: auto;
+            display: none; /* Esconde inicialmente */
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #4e4e9c;
+            padding: 20px;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .sidebar h2 {
+            text-align: center;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .main-content {
+            margin-left: 220px; /* Espaço para a barra lateral */
+            padding: 20px;
+            flex-grow: 1;
+        }
+        h1 {
+            color: #000;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #1b1b1bfd;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #004494;
+        }
+        .links {
+            margin-top: 15px;
+        }
+        .links a {
+            color: #070f7a;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+
+        <!-- Tela de Login -->
+        <div id="login" class="container" style="display: block;">
+            <h1>Login VIPcom</h1>
+            <form onsubmit="login(event)">
+                <div class="input-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="input-group">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="loginSenha" required>
+                </div>
+                <button type="submit">Entrar</button>
+            </form>
+            <div class="links">
+                <a href="#cadastro" onclick="showSection('cadastro')">Novo Cadastro</a>
+                <a href="#esqueci-senha" onclick="showSection('esqueci-senha')">Esqueceu a Senha?</a>
+            </div>
+        </div>
+
+        <!-- Tela de Cadastro -->
+        <div id="cadastro" class="container">
+            <h1>Criar Conta</h1>
+            <form onsubmit="register(event)">
+                <div class="input-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="cadastroEmail" required>
+                </div>
+                <div class="input-group">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="cadastroSenha" required>
+                </div>
+                <button type="submit">Criar Conta</button>
+            </form>
+            <div class="links">
+                <a href="#login" onclick="showSection('login')">Já tenho uma conta</a>
+            </div>
+        </div>
+
+        <!-- Tela Esqueci Senha -->
+        <div id="esqueci-senha" class="container">
+            <h1>Esqueci a Senha</h1>
+            <form onsubmit="resetPassword(event)">
+                <div class="input-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="resetEmail" required>
+                </div>
+                <button type="submit">Redefinir Senha</button>
+            </form>
+            <div class="links">
+                <a href="#login" onclick="showSection('login')">Voltar ao Login</a>
+            </div>
+        </div>
+
+        <!-- Barra Lateral -->
+        <div class="sidebar" id="sidebar" style="display: none;">
+            <h2>VIPcom</h2>
+            <ul>
+                <li><a href="#home" onclick="showSection('home')">Home</a></li>
+                <li><a href="#projetos" onclick="showSection('projetos')">Projetos</a></li>
+                <li><a href="#visualizar-projetos" onclick="showSection('visualizar-projetos')">Visualizar Projetos</a></li>
+                <li><a href="#login" onclick="logout()">Sair</a></li>
+            </ul>
+        </div>
+
+        <!-- Tela Home -->
+        <div id="home" class="container" style="display: none;">
+            <h1>Bem-vindo à tela Home!</h1>
+            <p>Aqui você pode acessar suas atividades e projetos.</p>
+        </div>
+
+        <!-- Tela de Projetos -->
+        <div id="projetos" class="container" style="display: none;">
+            <h1>Criar Novo Projeto</h1>
+            <form onsubmit="addProject(event)">
+                <div class="input-group">
+                    <label for="projectName">Nome do Projeto:</label>
+                    <input type="text" id="projectName" required>
+                </div>
+                <div class="input-group">
+                    <label for="projectDesc">Descrição do Projeto:</label>
+                    <textarea id="projectDesc" required></textarea>
+                </div>
+                <button type="submit">Adicionar Projeto</button>
+            </form>
+        </div>
+
+        <!-- Visualizar Projetos -->
+        <div id="visualizar-projetos" class="container" style="display: none;">
+            <h1>Projetos Criados</h1>
+            <ul id="projectList"></ul>
+        </div>
+
+    </div>
+
+    <script>
+        let projects = [];
+
+        function showSection(section) {
+            const sections = ['login', 'cadastro', 'esqueci-senha', 'home', 'projetos', 'visualizar-projetos'];
+            sections.forEach(s => {
+                document.getElementById(s).style.display = 'none';
+            });
+            document.getElementById(section).style.display = 'block';
+
+            // Mostrar ou esconder a barra lateral
+            if (section === 'home' || section === 'projetos' || section === 'visualizar-projetos') {
+                document.getElementById('sidebar').style.display = 'block';
+            } else {
+                document.getElementById('sidebar').style.display = 'none';
+            }
+        }
+
+        function login(event) {
+            event.preventDefault();
+            showSection('home');
+        }
+
+        function register(event) {
+            event.preventDefault();
+            showSection('login');
+        }
+
+        function resetPassword(event) {
+            event.preventDefault();
+            alert('Instruções para redefinição de senha foram enviadas.');
+            showSection('login');
+        }
+
+        function addProject(event) {
+            event.preventDefault();
+            const projectName = document.getElementById('projectName').value;
+            const projectDesc = document.getElementById('projectDesc').value;
+
+            if (projectName && projectDesc) {
+                const project = { name: projectName, description: projectDesc };
+                projects.push(project);
+                document.getElementById('projectName').value = '';
+                document.getElementById('projectDesc').value = '';
+                displayProjects();
+            }
+        }
+
+        function displayProjects() {
+            const projectList = document.getElementById('projectList');
+            projectList.innerHTML = '';
+            projects.forEach((project, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${project.name}</strong>: ${project.description} 
+                <button onclick="editProject(${index})">Editar</button> 
+                <button onclick="deleteProject(${index})">Excluir</button>`;
+                projectList.appendChild(li);
+            });
+            showSection('visualizar-projetos');
+        }
+
+        function editProject(index) {
+            const project = projects[index];
+            document.getElementById('projectName').value = project.name;
+            document.getElementById('projectDesc').value = project.description;
+            projects.splice(index, 1);
+            displayProjects();
+        }
+
+        function deleteProject(index) {
+            projects.splice(index, 1);
+            displayProjects();
+        }
+
+        function logout() {
+            showSection('login');
+        }
+
+        // Inicializa mostrando a tela de login
+        showSection('login');
+    </script>
+
+</body>
+</html>
